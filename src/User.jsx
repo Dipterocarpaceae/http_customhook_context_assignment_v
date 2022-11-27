@@ -14,7 +14,6 @@ import CardContent from "@mui/material/CardContent";
 
 const User = (props) => {
   const [data] = useFetch(props.urlEnd);
-
   const dialogCtx = useContext(DialogContext);
 
   console.log("User called");

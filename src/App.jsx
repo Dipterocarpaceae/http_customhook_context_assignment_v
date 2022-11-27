@@ -2,12 +2,17 @@ import { useState, useEffect, useContext } from "react";
 import User from "./User";
 import Post from "./Post";
 import DialogContext from "./context/DialogProvider";
+import UserContext from "./context/UserProvider";
+import DialogTransition from "./DialogTransition";
+import useFetch from "./useFetch";
 
 function App() {
   const [userURL, setUserURL] = useState("/users");
   const [postURL, setPostURL] = useState("/posts");
+  const [data] = useFetch(userURL);
 
-  const dialogCtx = useContext(DialogContext)
+  const dialogCtx = useContext(DialogContext);
+  const userCtx = useContext(UserContext);
 
   console.log("App called");
   console.log("Ctx.dialog:", dialogCtx.dialog);
@@ -22,6 +27,10 @@ function App() {
   const handleUserRequest = (event) => {
     event.preventDefault();
     console.log("Toggle Clicked");
+
+    userCtx.setUserData(data);
+    console.log("Set user data to dialog");
+    
     dialogCtx.setDialog((prev) => !prev);
   };
 
@@ -33,6 +42,7 @@ function App() {
         <div>
           <button onClick={handleUserRequest}>Toggle</button>
         </div>
+        <DialogTransition />
       </div>
   );
 }
